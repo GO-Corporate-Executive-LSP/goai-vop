@@ -185,12 +185,12 @@ function solve(inputs: VopInputs, stateFactor = 1) {
 
   const rawProtected = attention + coordination + continuity + mission;
   const overlapNormalization = 1 / (1 + Math.max(0, chaos.severity - 1) * 0.08);
-  const protected = rawProtected * overlapNormalization;
+  const valueProtected = rawProtected * overlapNormalization;
 
   const unrecovered =
     (continuity + mission) * (1 - automation) +
     hourly * (chaos.recovery / 60) * materialProbability * 0.28;
-  const valueAtRisk = protected + unrecovered;
+  const valueAtRisk = valueProtected + unrecovered;
 
   return {
     hourly,
@@ -199,9 +199,9 @@ function solve(inputs: VopInputs, stateFactor = 1) {
     timeReturned,
     touchesRemoved,
     components,
-    valueProtected: protected,
+    valueProtected,
     valueAtRisk,
-    residualExposure: Math.max(0, valueAtRisk - protected),
+    residualExposure: Math.max(0, valueAtRisk - valueProtected),
   };
 }
 
